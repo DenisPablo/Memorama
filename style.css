@@ -1,40 +1,60 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
 body {
-  background: #00a651;
+  background: rgb(172, 184, 146);
+  background: linear-gradient(
+    342deg,
+    rgba(172, 184, 146, 1) 0%,
+    rgba(23, 87, 99, 1) 100%
+  );
+  font-family: sans-serif;
+  color: white;
+  /* https://cssgradient.io/ */
 }
 
-.carta {
-  position: relative;
-  float: left;
-  margin-top: 10px;
-  margin-left: 5px;
-  margin-right: 10px;
-  width: 150px;
-  height: 200px;
-  border-radius: 10px;
-  background: #fff;
-  -webkit-box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
-  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
+main {
+  width: 730px;
+  margin: 30px auto 50px;
+  display: flex;
+  align-items: center;
 }
 
-.carta img {
-  width: 120px;
-  height: 120px;
-  display: block;
-  margin: 0px auto;
-  margin-top: 20px;
-  border-radius: 10px;
-  -webkit-box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
-  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
+.section1 {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10px 10px 10px 10px;
+  border-radius: 8px;
 }
 
-.carta h1 {
-  margin-top: 10px;
-  font-size: medium;
+h1 {
   text-align: center;
-  border-radius: 10px;
+}
+button img {
+  height: 250px;
+  width: 200px;
+  font-size: 40px;
+  color: black;
+  font-weight: bold;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.section2 {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  width: 250px;
+  height: 400px;
+}
+
+.estadisticas {
+  border: 1px solid white;
+  height: 105px;
+  border-radius: 8px;
+  padding: 8px 20px;
+  box-sizing: border-box;
+  padding: 0 20px;
+}
+
+footer {
+  text-align: center;
 }

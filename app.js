@@ -1,29 +1,34 @@
 let url = "http://hp-api.herokuapp.com/api/characters";
+
+let cartasVolteadas = 0;
+let ArrayCartas;
+
+let carta_1;
+let carta_2;
+let resultado_1;
+let resultado_2;
+
 fetch(url)
   .then((response) => response.json())
   .then((data) => mostrarData(data))
   .catch((error) => console.log(error));
 
-const mostrarData = (data) => {
-  //console.log(data);
+function mostrarData(data) {
   let cartas = [];
   let cantidadPersonajes = 0;
   let id = 0;
-  tablero = document.getElementById("tablero");
 
-  while (cantidadPersonajes < 5) {
+  while (cantidadPersonajes < 12) {
     let n = Math.round(Math.random() * 403);
 
     if (data[n].image != "") {
-      let carta = `<div class='carta' id=${id++}>
-      <img src="${data[n].image}"/>
-      <h1>${data[n].name}</h1> 
-    </div>`;
+      let carta = `<td><button id="${++id}" onclick="destapar(${id})"><img src="${
+        data[n].image
+      }"></img></button></td>`;
 
-    let cartaDuplicada = `<div class='carta' id=${id++}>
-    <img src="${data[n].image}"/>
-    <h1>${data[n].name}</h1> 
-  </div>`;
+      let cartaDuplicada = `<td><button id="${++id}" onclick="destapar(${id})"><img src="${
+        data[n].image
+      }"></img></button></td>`;
 
       cartas.push(carta);
       cartas.push(cartaDuplicada);
@@ -33,28 +38,22 @@ const mostrarData = (data) => {
       continue;
     }
   }
-  // Mescla de cartas
   imprimirCartas(cartas);
-  //voltearTodasCartas();
-  //voltearCarta(0);
-};
-
-function voltearCarta(id) {
-  let reversoDeCarta = `<div class='reverso'>
-  <img src="${"interrogacion.png"}"/>
-  </div>`;
-
-  document.getElementById(id).innerHTML = reversoDeCarta;
-}
-
-function voltearTodasCartas(cartas) {
-  for (let i = 0; i < 10; i++) {
-    voltearCarta(i);
-  }
 }
 
 function imprimirCartas(cartas) {
+  let filas = 0;
+  let columna = 0;
+  let tr = document.getElementById("columna_0");
+  let htmlColumnas = ["columna_1", "columna_2", "columna_3", "columna_4"];
+
   for (let carta of cartas) {
-    tablero.innerHTML += carta;
+    if (filas < 4) {
+      tr.innerHTML += carta;
+      filas++;
+    } else {
+      filas = 0;
+      tr = document.getElementById(htmlColumnas[columna++]);
+    }
   }
 }

@@ -1,13 +1,5 @@
 let url = "http://hp-api.herokuapp.com/api/characters";
 
-let cartasVolteadas = 0;
-let ArrayCartas;
-
-let carta_1;
-let carta_2;
-let resultado_1;
-let resultado_2;
-
 fetch(url)
   .then((response) => response.json())
   .then((data) => mostrarData(data))
@@ -22,13 +14,10 @@ function mostrarData(data) {
     let n = Math.round(Math.random() * 403);
 
     if (data[n].image != "") {
-      let carta = `<td><button id="${++id}" onclick="destapar(${id})"><img src="${
-        data[n].image
-      }"></img></button></td>`;
+      id++;
+      let carta = `<td><button id="${id}" class="carta" onclick="voltear(${id})"><img src="${data[n].image}"></img></button></td>`;
 
-      let cartaDuplicada = `<td><button id="${++id}" onclick="destapar(${id})"><img src="${
-        data[n].image
-      }"></img></button></td>`;
+      let cartaDuplicada = `<td><button id="${id}" class="carta" onclick="voltear(${id})"><img src="${data[n].image}"></img></button></td>`;
 
       cartas.push(carta);
       cartas.push(cartaDuplicada);
@@ -55,5 +44,39 @@ function imprimirCartas(cartas) {
       filas = 0;
       tr = document.getElementById(htmlColumnas[columna++]);
     }
+  }
+}
+// Logica del juego
+
+let cartasVolteadas = 0;
+let carta_1;
+let carta_2;
+let resultado_1;
+let resultado_2;
+
+function voltear(id) {
+  let element = document.getElementById(id);
+  cartasVolteadas++;
+
+  if (cartasVolteadas == 1) {
+    resultado_1 = element;
+    carta_1 = id;
+  } else if (cartasVolteadas == 2) {
+    resultado_2 = element;
+    carta_2 = id;
+    cartasVolteadas = 0;
+    verificarGanador();
+    return id;
+  }
+}
+
+function verificarGanador() {
+  console.log(resultado_1);
+  console.log(resultado_2);
+
+  if (carta_1 == carta_2) {
+    console.log("Adivinaste");
+  } else {
+    console.log("No adivinaste");
   }
 }

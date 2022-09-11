@@ -26,12 +26,10 @@ main {
 h1 {
   text-align: center;
 }
+
 button img {
   height: 250px;
   width: 200px;
-  font-size: 40px;
-  color: black;
-  font-weight: bold;
 }
 
 button:hover {

@@ -9,6 +9,7 @@ function comenzar() {
     .catch((error) => console.log(error));
 
   document.getElementById("inicio").style.display = "none";
+  //quedaTiempo = true;
 }
 
 function mostrarData(data) {
@@ -54,13 +55,21 @@ let carta_1;
 let carta_2;
 let id_1;
 let id_2;
-
 let cantAciertos = 0;
 let cantIntentos = 0;
+// control de tiempo
+
+let quedaTiempo = false;
+let minutos = 5;
+let segundos = 59;
+
+//setInterval(contador, 1000);
+setInterval(iniciar, 1000);
 
 function voltear(letra, num) {
   contadorVolteos++;
   cantIntentos++;
+  quedaTiempo = true;
 
   if (contadorVolteos == 1) {
     carta_1 = letra + num;
@@ -82,12 +91,12 @@ function voltear(letra, num) {
 
 function verificarCoincidencias() {
   document.getElementById("tablero").style.pointerEvents = "none";
-  if (id_1 == id_2 && carta_1 != carta_2) {
+  if (id_1 == id_2 && carta_1 != carta_2 && quedaTiempo) {
     cantAciertos++;
     document.getElementById("aciertos").innerHTML = `Aciertos: ${cantAciertos}`;
 
     if (cantAciertos == 10) {
-      alert("Felicitaciones has ganado");
+      ganar();
     }
 
     setTimeout(eliminarCartas, 500);
@@ -95,6 +104,8 @@ function verificarCoincidencias() {
     setTimeout(ocultar, 1000);
   }
 }
+
+// funciones para uso
 
 function revelar(carta) {
   document.getElementById(carta).className = "revelada";
@@ -109,4 +120,41 @@ function eliminarCartas() {
   document.getElementById(carta_1).style.opacity = 0;
   document.getElementById(carta_2).style.opacity = 0;
   document.getElementById("tablero").style.pointerEvents = "all";
+}
+
+function ganar() {
+  document.getElementById(
+    "tablero"
+  ).innerHTML = `<div id="final"><h1>¡¡¡Felicitaciones has ganado!!!</h1> 
+  <p>Te a tomado: ${cantIntentos} intentos<p></div>`;
+
+  document.getElementById("s2").style.opacity = 0;
+}
+
+function perder() {
+  document.getElementById(
+    "tablero"
+  ).innerHTML = `<div id="final"><h1>¡¡¡El tiempo a finalizado!!</h1> 
+  <p>Has perdido.<p></div>`;
+
+  document.getElementById("s2").style.opacity = 0;
+}
+
+function contador() {
+  document.getElementById(
+    "t-restante"
+  ).innerHTML = `Tiempo restante: 0${minutos}:${segundos--}`;
+
+  if (minutos != 0 && segundos == 0) {
+    minutos--;
+    segundos = 59;
+  } else if (minutos == 0 && segundos == 0) {
+    perder();
+  }
+}
+
+function iniciar() {
+  if (quedaTiempo) {
+    contador();
+  }
 }

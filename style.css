@@ -27,15 +27,18 @@ h1 {
   text-align: center;
 }
 
-button img {
+div img {
   height: 250px;
   width: 200px;
 }
 
-button:hover {
+div:hover {
   cursor: pointer;
 }
 
+.OK {
+  opacity: 0;
+}
 .section2 {
   background-color: rgba(255, 255, 255, 0.2);
   border-top-right-radius: 8px;

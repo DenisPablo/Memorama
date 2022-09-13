@@ -67,6 +67,7 @@ function voltear(letra, num) {
     id_1 = num;
     revelar(carta_1);
   } else if (contadorVolteos == 2) {
+    document.getElementById("tablero").style.pointerEvents = "none";
     carta_2 = letra + num;
     id_2 = num;
     revelar(carta_2);
@@ -80,16 +81,18 @@ function voltear(letra, num) {
 }
 
 function verificarCoincidencias() {
+  document.getElementById("tablero").style.pointerEvents = "none";
   if (id_1 == id_2 && carta_1 != carta_2) {
-    eliminarCartas();
     cantAciertos++;
     document.getElementById("aciertos").innerHTML = `Aciertos: ${cantAciertos}`;
 
     if (cantAciertos == 10) {
       alert("Felicitaciones has ganado");
     }
+
+    setTimeout(eliminarCartas, 500);
   } else if (id_1 != id_2 || carta_1 == carta_2) {
-    setTimeout(ocultar, 1200);
+    setTimeout(ocultar, 1000);
   }
 }
 
@@ -99,9 +102,11 @@ function revelar(carta) {
 function ocultar() {
   document.getElementById(carta_1).className = "carta";
   document.getElementById(carta_2).className = "carta";
+  document.getElementById("tablero").style.pointerEvents = "all";
 }
 
 function eliminarCartas() {
   document.getElementById(carta_1).style.opacity = 0;
   document.getElementById(carta_2).style.opacity = 0;
+  document.getElementById("tablero").style.pointerEvents = "all";
 }

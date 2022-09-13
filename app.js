@@ -11,40 +11,39 @@ function comenzar() {
   document.getElementById("inicio").style.display = "none";
 }
 
-comenzar();
-
 function mostrarData(data) {
   let cartas = [];
+  let cartasFinal = [];
   let id = 0;
+  let id_carta = 0;
 
   while (id < 10) {
-    let carta = `<td><div id="a_${id}" onclick="voltear('a_',${id} )"><img src="${data[id].image}"></div></td>`;
-    let cartaDuplicada = `<td><div id="b_${id}" onclick="voltear('b_',${id} )"><img src="${data[id].image}"></div></td>`;
+    let carta = `<td><div id="a_${id}" class="carta" onclick="voltear('a_',${id} )"><img src="${data[id].image}"></div></td>`;
+    let cartaDuplicada = `<td><div id="b_${id}" class="carta" onclick="voltear('b_',${id} )"><img src="${data[id].image}"></div></td>`;
     //console.log(id);
     id++;
     cartas.push(carta);
     cartas.push(cartaDuplicada);
   }
   // Mescla e impresion de cartas
-  console.log(cartas);
   cartas.sort(() => Math.random() - 0.5);
-  imprimirCartas(cartas);
+
+  for (let i = 0; i < 5; i++) {
+    let tr = `<tr>${cartas[id_carta++]}${cartas[id_carta++]}${
+      cartas[id_carta++]
+    }${cartas[id_carta++]}</tr>`;
+
+    cartasFinal.push(tr);
+  }
+
+  cartasFinal.sort(() => Math.random() - 0.5);
+  console.log(cartasFinal);
+  imprimirCartas(cartasFinal);
 }
 
 function imprimirCartas(cartas) {
-  let filas = 0;
-  let columna = 0;
-  let tr = document.getElementById("columna_0");
-  let htmlColumnas = ["columna_1", "columna_2", "columna_3", "columna_4"];
-
   for (let carta of cartas) {
-    if (filas < 4) {
-      tr.innerHTML += carta;
-      filas++;
-    } else {
-      filas = 0;
-      tr = document.getElementById(htmlColumnas[columna++]);
-    }
+    document.getElementById("tablero").innerHTML += carta;
   }
 }
 
@@ -56,26 +55,53 @@ let carta_2;
 let id_1;
 let id_2;
 
+let cantAciertos = 0;
+let cantIntentos = 0;
+
 function voltear(letra, num) {
   contadorVolteos++;
+  cantIntentos++;
 
   if (contadorVolteos == 1) {
     carta_1 = letra + num;
     id_1 = num;
+    revelar(carta_1);
   } else if (contadorVolteos == 2) {
     carta_2 = letra + num;
     id_2 = num;
+    revelar(carta_2);
     verificarCoincidencias();
     contadorVolteos = 0;
   }
+
+  document.getElementById("movimientos").innerHTML = `Movimientos: ${Math.round(
+    cantIntentos / 2
+  )}`;
 }
 
 function verificarCoincidencias() {
-  if (id_1 == id_2) {
-    console.log("adivinaste");
-    console.log(carta_1);
-    console.log(carta_2);
-    document.getElementById(carta_1).innerHTML = "OK";
-    document.getElementById(carta_2).innerHTML = "OK";
+  if (id_1 == id_2 && carta_1 != carta_2) {
+    eliminarCartas();
+    cantAciertos++;
+    document.getElementById("aciertos").innerHTML = `Aciertos: ${cantAciertos}`;
+
+    if (cantAciertos == 10) {
+      alert("Felicitaciones has ganado");
+    }
+  } else if (id_1 != id_2 || carta_1 == carta_2) {
+    setTimeout(ocultar, 1200);
   }
+}
+
+function revelar(carta) {
+  document.getElementById(carta).className = "revelada";
+}
+function ocultar() {
+  document.getElementById(carta_1).className = "carta";
+  document.getElementById(carta_2).className = "carta";
+}
+
+function eliminarCartas() {
+  document.getElementById(carta_1).style.opacity = 0;
+  document.getElementById(carta_2).style.opacity = 0;
 }
